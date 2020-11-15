@@ -64,6 +64,10 @@ public:
     UFUNCTION(BlueprintCallable, meta = (DisplayName = "Change Operations", Keywords = "Change Operation"), Category = Webcam)
         void ChangeOperation();
 
+    // Change OpenCV operation that will be applied to every frame
+    UFUNCTION(BlueprintCallable, meta = (DisplayName = "Change Filename", Keywords = "Change Filename"), Category = Webcam)
+        void ChangeFilename(FString Filename);
+
     // OpenCV fields
     cv::Mat frame;
     cv::VideoCapture stream;

@@ -21,6 +21,7 @@ AWebcamReader::AWebcamReader()
     ShouldResize = false;
     ResizeDeminsions = FVector2D(320, 240);
     RefreshTimer = 0.0f;
+    // 03 ÖÐ¿ØÊÒ2 192.168.10.248
     stream = cv::VideoCapture();
     frame = cv::Mat();
 }
@@ -31,7 +32,7 @@ void AWebcamReader::BeginPlay()
 	Super::BeginPlay();
 	
     // Open the stream
-    stream.open(CameraID);
+    bool b = stream.open("rtsp://admin:admin13579@192.168.10.248/h264/ch1/main/av_stream");  // CameraID
     if (stream.isOpened())
     {
         // Initialize stream
@@ -69,11 +70,32 @@ void AWebcamReader::Tick(float DeltaTime)
     }
 }
 
+//TCHAR array×ªCHAR array£º
+//
+//const char* msg = TCHAR_TO_ANSI(TEXT("dddd"));
+//
+//
+//CHAR array×ªTCHAR array£º
+//
+//const TCHAR* msg = ANSI_TO_TCHAR("dddd");
+
 
 void AWebcamReader::ChangeOperation()
 {
     OperationMode++;
     OperationMode %= 3;
+}
+
+void AWebcamReader::ChangeFilename(FString Filename)
+{
+    const TCHAR* p = *Filename;
+    
+    String s = TCHAR_TO_ANSI(*Filename);
+
+    // Initialize stream
+    stream.open(s);
+
+    isStreamOpen = stream.isOpened();
 }
 
 void AWebcamReader::UpdateFrame()
